@@ -34,7 +34,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-x
 COPY . /var/www/html/
 
 # Set permissions for the Drupal files and directories
-RUN chown -R www-data:www-data /var/www/html/sites/default/files && \
-    chown -R www-data:www-data /var/www/html/sites/default/settings.php && \
-    chmod -R 755 /var/www/html/sites/default/files && \
-    chmod 644 /var/www/html/sites/default/settings.php
+# RUN chown -R www-data:www-data /var/www/html/sites/default/files && \
+#     chown -R www-data:www-data /var/www/html/sites/default/settings.php && \
+#     chmod -R 755 /var/www/html/sites/default/files && \
+#     chmod 644 /var/www/html/sites/default/settings.php
