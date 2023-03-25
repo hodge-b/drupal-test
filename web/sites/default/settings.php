@@ -88,7 +88,16 @@
  * ];
  * @endcode
  */
-$databases = [];
+$databases['default']['default'] = [
+  'database' => 'drupaldb',
+  'username' => 'drupaluser',
+  'password' => 'drupalpass',
+  'host' => 'https://novaryacreations-database.onrender.com',
+  'port' => '3306',
+  'driver' => 'mysql',
+  'prefix' => '',
+  'collation' => 'utf8mb4_general_ci',
+];
 
 /**
  * Customizing database settings.
