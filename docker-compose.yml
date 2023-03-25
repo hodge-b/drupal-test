@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  drupal:
+    image: drupal:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./drupal/modules:/var/www/html/modules
+      - ./drupal/themes:/var/www/html/themes
+      - ./drupal/profiles:/var/www/html/profiles
+      - ./drupal/sites:/var/www/html/sites
+    environment:
+      - MYSQL_HOST=mariadb
+      - MYSQL_DATABASE=drupaldb
+      - MYSQL_USER=drupaluser
+      - MYSQL_PASSWORD=drupalpass
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:10.5
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=drupaldb
+      - MYSQL_USER=drupaluser
+      - MYSQL_PASSWORD=drupalpass
+    ports:
+      - "3306:3306"
