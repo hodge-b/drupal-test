@@ -1,20 +1,34 @@
-FROM landoop/drupal:latest
+FROM drupal:10.0.5-apache
 
-# Copy any custom configuration files
-COPY config/some-config-file.conf /etc/apache2/sites-available/
+# Install PHP extensions required by Drupal and some useful tools
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libxpm-dev \
+    libfreetype6-dev \
+    libicu-dev \
+    libpq-dev \
+    libzip-dev \
+    libonig-dev \
+    unzip \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy any custom scripts
-COPY scripts/some-script.sh /usr/local/bin/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-xpm \
+    && docker-php-ext-install -j "$(nproc)" \
+        gd \
+        intl \
+        opcache \
+        pdo \
+        pdo_mysql \
+        pdo_pgsql \
+        zip \
+        bcmath \
+        mbstring \
+        exif \
+        pcntl
 
-# Install any additional packages or dependencies
-RUN apt-get update && \
-    apt-get install -y some-package
-
-# Set environment variables
-ENV ENV_VAR_NAME=env_var_value
-
-# Expose any necessary ports
-EXPOSE 80
-
-# Set the default command to start Apache and PHP-FPM
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Copy the Drupal files to the web root
+COPY . /var/www/html/
