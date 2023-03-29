@@ -8,6 +8,8 @@ services:
     volumes:
       - db_data:/var/lib/mysql
     restart: always
+    networks:
+      - custom-driver
   drupal:
     depends_on:
       - db
@@ -17,5 +19,10 @@ services:
     volumes:
       - ./app:/app
     restart: always
+    networks:
+      - custom-driver
 volumes:
   db_data:
+
+networks:
+  driver: custom-driver
